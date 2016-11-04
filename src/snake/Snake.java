@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class Snake implements ActionListener, KeyListener {
@@ -38,6 +39,7 @@ public class Snake implements ActionListener, KeyListener {
 		jframe.add(renderPanel = new RenderPanel());
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.addKeyListener(this);
+		JOptionPane.showMessageDialog(renderPanel, "Welcome to Snake!", "Snake", JOptionPane.PLAIN_MESSAGE);
 		startGame();
 	}
 
