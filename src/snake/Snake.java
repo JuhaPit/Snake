@@ -21,7 +21,7 @@ public class Snake implements ActionListener, KeyListener {
 	public Timer timer = new Timer(20, this);
 	public ArrayList<Point> snakeParts = new ArrayList<Point>();
 	public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
-	public int ticks = 0, direction = DOWN, score, tailLength = 10, time;
+	public int ticks = 0, direction = DOWN, score, tailLength = 10, time, speedVariable = 2;
 	public Point head, cherry;
 	public Random random;
 	public boolean over = false, paused;
@@ -54,11 +54,6 @@ public class Snake implements ActionListener, KeyListener {
 		random = new Random();
 		snakeParts.clear();
 		cherry = new Point(random.nextInt(79), random.nextInt(66));
-
-		//for (int i = 0; i < tailLength; i++) {
-		//	snakeParts.add(new Point(head.x, head.y));
-		//}
-
 		timer.start();
 	}
 
@@ -67,7 +62,7 @@ public class Snake implements ActionListener, KeyListener {
 		renderPanel.repaint();
 		ticks++;
 
-		if (ticks % 2 == 0 && head != null && !over && !paused) {
+		if (ticks % speedVariable == 0 && head != null && !over && !paused) {
 			
 			time++;
 
@@ -143,6 +138,8 @@ public class Snake implements ActionListener, KeyListener {
 			direction = UP;
 		if (i == KeyEvent.VK_S && direction != UP)
 			direction = DOWN;
+		if (i == KeyEvent.VK_SHIFT)
+			speedVariable = 1;
 		if (i == KeyEvent.VK_SPACE)
 			if (over)
 				startGame();
@@ -153,6 +150,10 @@ public class Snake implements ActionListener, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		int i = e.getKeyCode();
+		
+		if(i == KeyEvent.VK_SHIFT)
+			speedVariable = 2;
 	}
 
 	@Override
