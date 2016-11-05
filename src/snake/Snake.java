@@ -126,7 +126,15 @@ public class Snake implements ActionListener, KeyListener {
 				if (head.equals(cherry)) {
 					score += 10;
 					tailLength++;
-					Sound.PlaySound(point);
+					
+					new Thread(new Runnable(){
+						
+						public void run(){
+							
+							Sound.PlaySound(point);
+						}
+					}).start();
+					
 					cherry.setLocation(random.nextInt(79), random.nextInt(66));
 
 				}
