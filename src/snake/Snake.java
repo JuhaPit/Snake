@@ -157,7 +157,7 @@ public class Snake implements ActionListener, KeyListener {
 	public static void main(String[] args) {
 
 		snake = new Snake();
-		File music = new File("searching.wav");
+		File music = new File("src/soundfiles/searching.wav");
 		Sound.PlaySoundLoop(music);
 	}
 
