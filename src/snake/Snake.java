@@ -78,7 +78,7 @@ public class Snake implements ActionListener, KeyListener {
 		String lostText = "<html><body width=175, align=center><h2>You lost!</h2>"
 				+ "<p>Score: " + score
 				+ "<p>Length: " + (tailLength - 5)
-				+ "<p>Time: " + time / 50 + "<br><br>"
+				+ "<p>Time: " + time / 33 + "<br><br>"
 				+ "<p>Press Space in the gameview to try again.</body></html>";
 		if (!paused && !over)
 		time++;
