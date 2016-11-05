@@ -25,6 +25,7 @@ public class Snake implements ActionListener, KeyListener {
 	public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
 	public int ticks = 0, direction = DOWN, score, tailLength = 10, time,
 			speedVariable = 2;
+	static String soundSetting = "";
 	public Point head, cherry;
 	public Random random;
 	public boolean over = false, paused;
@@ -54,8 +55,9 @@ public class Snake implements ActionListener, KeyListener {
 				+ "Pause the game by pressing Space, or in case "
 				+ "you fail, <br>press Space to start a new game.</p><br>"
 				+ "<p>Good luck!</p></body></html>";
-		JOptionPane.showMessageDialog(jframe, menuText, "Snake",
-				JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(jframe, menuText, "Snake", JOptionPane.PLAIN_MESSAGE);
+		String[] choices = {"All sounds ON", "Sound ON, Music OFF", "Sound OFF, Music ON", "No sound" };
+		soundSetting = (String) JOptionPane.showInputDialog(jframe, "Sound Options", "Snake", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
 		startGame();
 	}
 
@@ -127,6 +129,8 @@ public class Snake implements ActionListener, KeyListener {
 					score += 10;
 					tailLength++;
 					
+					if (soundSetting.equals("All sounds ON") || soundSetting.equals("Sound ON, Music OFF")){
+					
 					new Thread(new Runnable(){
 						
 						public void run(){
@@ -135,6 +139,7 @@ public class Snake implements ActionListener, KeyListener {
 						}
 					}).start();
 					
+					}
 					cherry.setLocation(random.nextInt(79), random.nextInt(66));
 
 				}
@@ -157,8 +162,10 @@ public class Snake implements ActionListener, KeyListener {
 	public void endGame(){
 		
 		over = true;
-		Sound.PlaySound(hit);
 		
+		if (soundSetting.equals("All sounds ON") || soundSetting.equals("Sound ON, Music OFF")){
+		Sound.PlaySound(hit);
+		}
 		String lostText = "<html><body width=175, align=center><h2>You lost!</h2>"
 				+ "<p>Score: " + score
 				+ "<p>Length: " + (tailLength - 5)
@@ -172,7 +179,9 @@ public class Snake implements ActionListener, KeyListener {
 	public static void main(String[] args) {
 
 		snake = new Snake();
+		if(soundSetting.equals("All sounds ON") || soundSetting.equals("Sound OFF, Music ON")){
 		Sound.PlaySoundLoop(bgm);
+		}
 	}
 
 	@Override
