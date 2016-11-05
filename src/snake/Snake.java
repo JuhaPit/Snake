@@ -29,6 +29,9 @@ public class Snake implements ActionListener, KeyListener {
 	public Random random;
 	public boolean over = false, paused;
 	public Dimension dim;
+	static File bgm = new File("src/soundfiles/searching.wav");
+	File point = new File ("src/soundfiles/point.wav");
+	File hit = new File("src/soundfiles/hit.wav");
 	
 	public Snake() {
 		dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -77,11 +80,7 @@ public class Snake implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent arg0) {
 		renderPanel.repaint();
 		ticks++;
-		String lostText = "<html><body width=175, align=center><h2>You lost!</h2>"
-				+ "<p>Score: " + score
-				+ "<p>Length: " + (tailLength - 5)
-				+ "<p>Time: " + time / 50 + "<br><br>"
-				+ "<p>Press Space in the gameview to try again.</body></html>";
+		
 		if (!paused && !over)
 		time++;
 
@@ -94,18 +93,14 @@ public class Snake implements ActionListener, KeyListener {
 				if (head.y - 1 >= 0 && noTailAt(head.x, head.y - 1)) {
 					head = new Point(head.x, head.y - 1);
 				} else {
-					over = true;
-					JOptionPane.showMessageDialog(jframe, lostText, "Snake",
-							JOptionPane.PLAIN_MESSAGE);
+					endGame();
 				}
 			}
 			if (direction == DOWN) {
 				if (head.y + 1 < 67 && noTailAt(head.x, head.y + 1)) {
 					head = new Point(head.x, head.y + 1);
 				} else {
-					over = true;
-					JOptionPane.showMessageDialog(jframe, lostText, "Snake",
-							JOptionPane.PLAIN_MESSAGE);
+					endGame();
 				}
 			}
 
@@ -113,18 +108,14 @@ public class Snake implements ActionListener, KeyListener {
 				if (head.x - 1 >= 0 && noTailAt(head.x - 1, head.y)) {
 					head = new Point(head.x - 1, head.y);
 				} else {
-					over = true;
-					JOptionPane.showMessageDialog(jframe, lostText, "Snake",
-							JOptionPane.PLAIN_MESSAGE);
+					endGame();
 				}
 			}
 			if (direction == RIGHT) {
 				if (head.x + 1 < 80 && noTailAt(head.x + 1, head.y)) {
 					head = new Point(head.x + 1, head.y);
 				} else {
-					over = true;
-					JOptionPane.showMessageDialog(jframe, lostText, "Snake",
-							JOptionPane.PLAIN_MESSAGE);
+					endGame();
 				}
 			}
 			
@@ -135,6 +126,7 @@ public class Snake implements ActionListener, KeyListener {
 				if (head.equals(cherry)) {
 					score += 10;
 					tailLength++;
+					Sound.PlaySound(point);
 					cherry.setLocation(random.nextInt(79), random.nextInt(66));
 
 				}
@@ -153,12 +145,26 @@ public class Snake implements ActionListener, KeyListener {
 		}
 		return true;
 	}
+	
+	public void endGame(){
+		
+		over = true;
+		Sound.PlaySound(hit);
+		
+		String lostText = "<html><body width=175, align=center><h2>You lost!</h2>"
+				+ "<p>Score: " + score
+				+ "<p>Length: " + (tailLength - 5)
+				+ "<p>Time: " + time / 50 + "<br><br>"
+				+ "<p>Press Space in the gameview to try again.</body></html>";
+		JOptionPane.showMessageDialog(jframe, lostText, "Snake",
+				JOptionPane.PLAIN_MESSAGE);
+		
+	}
 
 	public static void main(String[] args) {
 
 		snake = new Snake();
-		File music = new File("src/soundfiles/searching.wav");
-		Sound.PlaySoundLoop(music);
+		Sound.PlaySoundLoop(bgm);
 	}
 
 	@Override
