@@ -22,12 +22,13 @@ public class Snake implements ActionListener, KeyListener {
 	public Timer timer = new Timer(20, this);
 	public ArrayList<Point> snakeParts = new ArrayList<Point>();
 	public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
-	public int ticks = 0, direction = DOWN, score, tailLength = 10, time, speedVariable = 2;
+	public int ticks = 0, direction = DOWN, score, tailLength = 10, time,
+			speedVariable = 2;
 	public Point head, cherry;
 	public Random random;
 	public boolean over = false, paused;
 	public Dimension dim;
-
+	
 	public Snake() {
 		dim = Toolkit.getDefaultToolkit().getScreenSize();
 		jframe = new JFrame("Snake");
@@ -39,7 +40,17 @@ public class Snake implements ActionListener, KeyListener {
 		jframe.add(renderPanel = new RenderPanel());
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.addKeyListener(this);
-		JOptionPane.showMessageDialog(renderPanel, "Welcome to Snake!", "Snake", JOptionPane.PLAIN_MESSAGE);
+		String menuText = "<html><body width=175, align=center><h3>Welcome to Snake!</h3>"
+				+ "<p>Try to eat as many cherries as you can, but <br></p>"
+				+ "<p>beware of hitting the walls or biting your tail!</p>"
+				+ "<h3>Controls</h3>"
+				+ "<p>Use the W, A, S and D keys to turn the snake.<br> "
+				+ "Press and hold the Shift key to slither around faster.<br> "
+				+ "Pause the game by pressing Space, or in case "
+				+ "you fail, <br>press Space to start a new game.</p><br>"
+				+ "<p>Good luck!</p></body></html>";
+		JOptionPane.showMessageDialog(jframe, menuText, "Snake",
+				JOptionPane.PLAIN_MESSAGE);
 		startGame();
 	}
 
@@ -49,6 +60,7 @@ public class Snake implements ActionListener, KeyListener {
 		paused = false;
 		score = 0;
 		tailLength = 5;
+		speedVariable = 2;
 		ticks = 0;
 		time = 0;
 		direction = DOWN;
@@ -63,39 +75,56 @@ public class Snake implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent arg0) {
 		renderPanel.repaint();
 		ticks++;
+		String lostText = "<html><body width=175, align=center><h2>You lost!</h2>"
+				+ "<p>Score: " + score
+				+ "<p>Length: " + (tailLength - 5)
+				+ "<p>Time: " + time / 50 + "<br><br>"
+				+ "<p>Press Space in the gameview to try again.</body></html>";
+		if (!paused && !over)
+		time++;
 
 		if (ticks % speedVariable == 0 && head != null && !over && !paused) {
-			
-			time++;
 
 			snakeParts.add(new Point(head.x, head.y));
 
 			if (direction == UP) {
 
-				if (head.y - 1 >= 0 && noTailAt(head.x, head.y - 1))
+				if (head.y - 1 >= 0 && noTailAt(head.x, head.y - 1)) {
 					head = new Point(head.x, head.y - 1);
-
-				else
+				} else {
 					over = true;
+					JOptionPane.showMessageDialog(jframe, lostText, "Snake",
+							JOptionPane.PLAIN_MESSAGE);
+				}
 			}
-			if (direction == DOWN)
-				if (head.y + 1 < 67 && noTailAt(head.x, head.y + 1))
+			if (direction == DOWN) {
+				if (head.y + 1 < 67 && noTailAt(head.x, head.y + 1)) {
 					head = new Point(head.x, head.y + 1);
-
-				else
+				} else {
 					over = true;
-			if (direction == LEFT)
-				if (head.x - 1 >= 0 && noTailAt(head.x - 1, head.y))
+					JOptionPane.showMessageDialog(jframe, lostText, "Snake",
+							JOptionPane.PLAIN_MESSAGE);
+				}
+			}
+
+			if (direction == LEFT) {
+				if (head.x - 1 >= 0 && noTailAt(head.x - 1, head.y)) {
 					head = new Point(head.x - 1, head.y);
-
-				else
+				} else {
 					over = true;
-			if (direction == RIGHT)
-				if (head.x + 1 < 80 && noTailAt(head.x + 1, head.y))
+					JOptionPane.showMessageDialog(jframe, lostText, "Snake",
+							JOptionPane.PLAIN_MESSAGE);
+				}
+			}
+			if (direction == RIGHT) {
+				if (head.x + 1 < 80 && noTailAt(head.x + 1, head.y)) {
 					head = new Point(head.x + 1, head.y);
-
-				else
+				} else {
 					over = true;
+					JOptionPane.showMessageDialog(jframe, lostText, "Snake",
+							JOptionPane.PLAIN_MESSAGE);
+				}
+			}
 
 			if (snakeParts.size() > tailLength)
 				snakeParts.remove(0);
@@ -116,7 +145,7 @@ public class Snake implements ActionListener, KeyListener {
 	public boolean noTailAt(int x, int y) {
 
 		for (Point point : snakeParts) {
-			if (point.equals(new Point(x,y))) {
+			if (point.equals(new Point(x, y))) {
 				return false;
 			}
 		}
@@ -153,8 +182,8 @@ public class Snake implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int i = e.getKeyCode();
-		
-		if(i == KeyEvent.VK_SHIFT)
+
+		if (i == KeyEvent.VK_SHIFT)
 			speedVariable = 2;
 	}
 

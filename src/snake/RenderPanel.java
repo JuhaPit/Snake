@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 public class RenderPanel extends JPanel {
 	
 	public static Color green = new Color(4706631);
+	public static Color snakeColor = new Color(102);
 	
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -17,10 +18,9 @@ public class RenderPanel extends JPanel {
 		g.setColor(green);
 		g.fillRect(0, 0, 800, 700);
 		Snake snake = Snake.snake;
-		g.setColor(Color.BLACK);
+		g.setColor(snakeColor);
 		
 		for(Point point : snake.snakeParts){
-			
 			g.fillRect(point.x * Snake.SCALE, point.y * Snake.SCALE,
 					Snake.SCALE, Snake.SCALE);
 		}
@@ -31,7 +31,7 @@ public class RenderPanel extends JPanel {
 		g.fillRect(snake.cherry.x * Snake.SCALE, snake.cherry.y * Snake.SCALE,
 				Snake.SCALE, Snake.SCALE);
 				
-		String string = "Score: " + snake.score + ", Length: " + (snake.tailLength - 5) + ", Time: " + snake.time / 20;
+		String string = "Score: " + snake.score + ", Length: " + (snake.tailLength - 5) + ", Time: " + snake.time / 50;
 		g.setColor(Color.WHITE);
 		g.drawString(string, (int) (getWidth() / 2 - string.length() * 2.5f), 10);
 	}
