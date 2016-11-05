@@ -32,7 +32,7 @@ public class Sound {
 			
 		}catch(Exception e) {
 			
-			
+			e.printStackTrace();
 		}
 	}
 	
