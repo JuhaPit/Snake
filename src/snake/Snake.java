@@ -45,6 +45,7 @@ public class Snake implements ActionListener, KeyListener {
 				+ "<p>beware of hitting the walls or biting your tail!</p>"
 				+ "<h3>Controls</h3>"
 				+ "<p>Use the W, A, S and D keys to turn the snake.<br> "
+				+ "Alternatively, you can use the ARROW keys.<br>"
 				+ "Press and hold the Shift key to slither around faster.<br> "
 				+ "Pause the game by pressing Space, or in case "
 				+ "you fail, <br>press Space to start a new game.</p><br>"
@@ -78,7 +79,7 @@ public class Snake implements ActionListener, KeyListener {
 		String lostText = "<html><body width=175, align=center><h2>You lost!</h2>"
 				+ "<p>Score: " + score
 				+ "<p>Length: " + (tailLength - 5)
-				+ "<p>Time: " + time / 33 + "<br><br>"
+				+ "<p>Time: " + time / 50 + "<br><br>"
 				+ "<p>Press Space in the gameview to try again.</body></html>";
 		if (!paused && !over)
 		time++;
@@ -168,6 +169,14 @@ public class Snake implements ActionListener, KeyListener {
 		if (i == KeyEvent.VK_W && direction != DOWN)
 			direction = UP;
 		if (i == KeyEvent.VK_S && direction != UP)
+			direction = DOWN;
+		if (i == KeyEvent.VK_LEFT && direction != RIGHT)
+			direction = LEFT;
+		if (i == KeyEvent.VK_RIGHT && direction != LEFT)
+			direction = RIGHT;
+		if (i == KeyEvent.VK_UP && direction != DOWN)
+			direction = UP;
+		if (i == KeyEvent.VK_DOWN && direction != UP)
 			direction = DOWN;
 		if (i == KeyEvent.VK_SHIFT)
 			speedVariable = 1;
