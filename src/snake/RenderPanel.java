@@ -34,5 +34,9 @@ public class RenderPanel extends JPanel {
 		String string = "Score: " + snake.score + ", Length: " + (snake.tailLength - 5) + ", Time: " + snake.time / 50;
 		g.setColor(Color.WHITE);
 		g.drawString(string, (int) (getWidth() / 2 - string.length() * 2.5f), 10);
+		
+		if(snake.paused){
+			g.drawString("PAUSED", (int) (getWidth() / 2 - string.length() * 0.8f), 50);
+		}
 	}
 }

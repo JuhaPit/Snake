@@ -125,7 +125,7 @@ public class Snake implements ActionListener, KeyListener {
 							JOptionPane.PLAIN_MESSAGE);
 				}
 			}
-
+			
 			if (snakeParts.size() > tailLength)
 				snakeParts.remove(0);
 
